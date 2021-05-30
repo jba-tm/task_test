@@ -1,0 +1,38 @@
+import {TaskActionTypes as ActionTypes} from "./types";
+
+const initialState = {
+    tasks: [],
+    loading: false,
+    message: '',
+    status: '',
+    count: 0,
+    errors: []
+}
+
+export const taskReducer = (state = initialState, action) => {
+    switch (action.type) {
+        case ActionTypes.TASKS_LOADING: {
+            return {...state, loading: action.payload}
+        }
+        case ActionTypes.TASKS_GET: {
+            return {
+                ...state,
+                tasks: action.payload['tasks'],
+                count: action.payload['total_task_count'],
+                status: action.payload['status'],
+                errors: [],
+                message: ''
+            }
+        }
+        case ActionTypes.TASKS_FAILURE:{
+            return {
+                ...state,
+                message: 'Errors detected',
+                errors: action.payload.message,
+                status: action.payload.status
+            }
+        }
+        default:
+            return state
+    }
+}
