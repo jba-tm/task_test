@@ -1,7 +1,6 @@
 import {AuthActionTypes as ActionTypes} from "./types";
 
 const initialState = {
-    authLogin: false,
     errors: [],
     status: '',
     message:'',
@@ -17,12 +16,11 @@ export const authReducer = (state = initialState, action) => {
             return {...state, errors: [], message: 'log out'}
         }
         case ActionTypes.AUTH_LOGIN: {
-            return {...state, authLogin: true, errors: [], message: 'logged in'}
+            return {...state, status: action.payload.status, errors: [], message: 'logged in'}
         }
         case ActionTypes.AUTH_FAILURE: {
             console.log(action.payload['message'])
             return {...state,
-                authLogin: false,
                 message: 'errors detected',
                 errors: action.payload['message'],
                 status: action.payload['status']

@@ -6,7 +6,7 @@ import {useHistory} from 'react-router-dom';
 
 const mapStateToProps = state => ({
     message: state.taskData.message,
-    errors: state.taskData.errors,
+    errors: state.taskData.errors || {},
 })
 
 const mapDispatchToProps = {

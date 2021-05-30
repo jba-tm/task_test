@@ -1,6 +1,7 @@
 import {AuthActionTypes as ActionTypes, AuthDataTypes as DataTypes} from "./types";
 import axios from "axios";
 import {RestUrls} from "../../urls";
+import {getCookie} from "../../../utils/helper";
 
 const FormData = require('form-data');
 

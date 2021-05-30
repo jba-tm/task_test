@@ -9,4 +9,5 @@ export const RestUrls = {
     [AuthDataTypes.AUTH]: `${protocol}://${hostname}:${port}/api/login/`,
     [TaskDataTypes.TASKS]: `${protocol}://${hostname}:${port}/api/?developer=anerg`,
     [TaskDataTypes.TASK_CREATE]: `${protocol}://${hostname}:${port}/api/create/`,
+    [TaskDataTypes.TASK_UPDATE]: `${protocol}://${hostname}:${port}/api/edit/`,
 }

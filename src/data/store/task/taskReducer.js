@@ -24,12 +24,28 @@ export const taskReducer = (state = initialState, action) => {
                 message: ''
             }
         }
+        case ActionTypes.TASK_CREATE:{
+            return {
+                ...state,
+                status: action.payload.status,
+                errors: [],
+                message: 'Task created',
+            }
+        }
+        case ActionTypes.TASK_UPDATE:{
+            return {
+                ...state,
+                status: action.payload.status,
+                errors: [],
+                message: 'Task updated',
+            }
+        }
         case ActionTypes.TASKS_FAILURE:{
             return {
                 ...state,
                 message: 'Errors detected',
-                errors: action.payload.message,
-                status: action.payload.status
+                errors: action.payload['message'],
+                status: action.payload['status']
             }
         }
         default:

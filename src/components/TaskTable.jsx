@@ -6,7 +6,8 @@ const thead = [
     'Username',
     'e-mail',
     'Test',
-    'Status'
+    'Status',
+    'Action'
 ];
 
 export const TaskTable = ({tasks}) => {
