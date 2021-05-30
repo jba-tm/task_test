@@ -6,6 +6,7 @@ import {useHistory} from 'react-router-dom';
 
 const mapStateToProps = state => ({
     message: state.taskData.message,
+    _csrf: state._csrf,
     errors: state.taskData.errors || {},
 })
 
@@ -32,14 +33,13 @@ export const TaskForm = connect(mapStateToProps, mapDispatchToProps)(
         const handleCancel = ()=>{
             history.push('/')
         }
-
         return (<>
             <div className="container">
                 <h1>Create Task</h1>
 
                 <div className="row">
                     <div className="col m-2">
-                        <ValidatedForm formModel={ formModel }
+                        <ValidatedForm formModel={ formModel } csrftoken={props._csrf}
                                        defaultAttrs={ defaultAttrs }
                                        submitCallback={ handleSubmit }
                                        cancelCallback={ handleCancel }

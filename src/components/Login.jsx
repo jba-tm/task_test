@@ -7,6 +7,7 @@ import {useHistory} from 'react-router-dom';
 const mapStateToProps = state => ({
     status: state.authData.status,
     message: state.authData.message,
+    _csrf: state._csrf,
     errors: state.authData.errors || {},
 })
 
@@ -44,7 +45,7 @@ export const Login = connect(mapStateToProps, mapDispatchToProps)(
         return (
             <div className="container">
                 <h1>Login</h1>
-                <ValidatedForm formModel={ formModel }
+                <ValidatedForm formModel={ formModel } csrftoken={props._csrf}
                                defaultAttrs={ defaultAttrs }
                                submitCallback={ handleSubmit }
                                cancelCallback={ handleCancel }

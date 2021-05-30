@@ -3,6 +3,9 @@ import axios from "axios";
 import {RestUrls} from "../../urls";
 import {getCookie} from "../../../utils/helper";
 
+axios.defaults.xsrfCookieName = 'csrftoken'
+axios.defaults.xsrfHeaderName = 'X-CSRFToken'
+
 const FormData = require('form-data');
 
 export const logout = (data, callback=()=>{})=>{
@@ -20,7 +23,9 @@ export const login = (data, callback=()=>{})=>{
     });
 
     return dispatch => {
-        axios.post(RestUrls[DataTypes.AUTH], formData).then(
+        axios.post(RestUrls[DataTypes.AUTH], formData, {
+            headers: {'X-CSRFToken': getCookie('csrftoken')}
+        }).then(
             response=>{
                 localStorage.setItem('token', response.data.token)
                 dispatch({type: ActionTypes.AUTH_LOGIN, payload: response.data})

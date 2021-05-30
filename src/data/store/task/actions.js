@@ -1,6 +1,7 @@
 import {TaskActionTypes as ActionTypes, TaskDataTypes as DataTypes} from "./types";
 import axios from "axios";
 import {RestUrls} from "../../urls";
+import {getCookie} from "../../../utils/helper";
 const FormData = require('form-data');
 
 axios.defaults.xsrfCookieName = 'csrftoken'
@@ -30,7 +31,9 @@ export const createTask = (data, callback = () => {}) => {
     });
 
     return async dispatch => {
-        await axios.post(RestUrls[DataTypes.TASK_CREATE], formData)
+        await axios.post(RestUrls[DataTypes.TASK_CREATE], formData, {
+            headers: {'X-CSRFToken': getCookie('csrftoken')}
+        })
             .then(response => {
                 console.log(response.data)
                 dispatch({type: ActionTypes.TASK_CREATE, payload: response.data})

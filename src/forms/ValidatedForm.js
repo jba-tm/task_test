@@ -83,6 +83,7 @@ export class ValidatedForm extends React.Component {
         return (
             <>
                 <form onSubmit={this.handleSubmit}>
+                    <input type="hidden" name="csrfmiddlewaretoken" value={this.props.csrftoken} />
                     {this.props.formModel.map(m => this.renderElement(m))}
                     <div className="text-center">
                         <button className="btn btn-secondary m-1"

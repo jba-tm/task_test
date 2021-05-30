@@ -6,6 +6,8 @@ import {taskReducer} from "./task/taskReducer"
 import { default as reducer, actions } from 'redux-csrf';
 import {getCookie} from "../../utils/helper";
 
+// var csurf = require('csurf')
+
 const middlewares = [thunk, logger]
 
 
@@ -13,6 +15,7 @@ const enhancedReducer = combineReducers(
     {
         authData: authReducer,
         taskData: taskReducer,
+        _csrf: reducer,
     }
 )
 
