@@ -6,7 +6,9 @@ const initialState = {
     message: '',
     status: '',
     count: 0,
-    errors: []
+    errors: [],
+    sortBy: 'username',
+    page: 1,
 }
 
 export const taskReducer = (state = initialState, action) => {
@@ -17,6 +19,9 @@ export const taskReducer = (state = initialState, action) => {
         case ActionTypes.TASKS_GET: {
             return {
                 ...state,
+                loading: false,
+                page: action.payload['page'],
+                sortBy: action.payload['sort_field'],
                 tasks: action.payload['tasks'],
                 count: action.payload['total_task_count'],
                 status: action.payload['status'],
@@ -24,7 +29,9 @@ export const taskReducer = (state = initialState, action) => {
                 message: ''
             }
         }
+
         case ActionTypes.TASK_CREATE:{
+            window.alert('Task created')
             return {
                 ...state,
                 status: action.payload.status,

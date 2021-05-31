@@ -1,7 +1,6 @@
 import {AuthActionTypes as ActionTypes, AuthDataTypes as DataTypes} from "./types";
 import axios from "axios";
 import {RestUrls} from "../../urls";
-import {getCookie} from "../../../utils/helper";
 
 axios.defaults.xsrfCookieName = 'csrftoken'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'
@@ -9,7 +8,6 @@ axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 const FormData = require('form-data');
 
 export const logout = (data, callback=()=>{})=>{
-
     localStorage.removeItem('token')
     return dispatch=>{
         dispatch({type:ActionTypes.AUTH_LOGOUT, payload: false})
@@ -23,15 +21,16 @@ export const login = (data, callback=()=>{})=>{
     });
 
     return dispatch => {
-        axios.post(RestUrls[DataTypes.AUTH], formData, {
-            headers: {'X-CSRFToken': getCookie('csrftoken')}
-        }).then(
+        axios.post(RestUrls[DataTypes.AUTH], formData,
+            // {
+            // headers: {'X-CSRFToken': getCookie('csrftoken')}
+            // }
+        ).then(
             response=>{
                 localStorage.setItem('token', response.data.token)
                 dispatch({type: ActionTypes.AUTH_LOGIN, payload: response.data})
             }
         ).catch(err=>{
-            // console.log(err.response.data);
             dispatch({type: ActionTypes.AUTH_FAILURE, payload: err.response.data})
         })
     }

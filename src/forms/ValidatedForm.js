@@ -1,7 +1,6 @@
 import React from "react";
 import {ValidationError} from "./ValidationError";
 import {GetMessages} from "./ValidationMessages";
-import {getCookie} from "../utils/helper";
 
 export class ValidatedForm extends React.Component {
     constructor(props) {
@@ -62,7 +61,7 @@ export class ValidatedForm extends React.Component {
                     return (
                         <div key={modelItem.label} className="form-group row">
                             <label htmlFor={name}>{modelItem.label}</label>
-                            <ValidationError errors={this.state.validationErrors[name]}/>
+                            <ValidationError error={this.state.validationErrors[name]}/>
                             <input id={name} name={name} ref={this.registerRef}
                                   className="form-check-input" {...this.props.defaultAttrs} {...modelItem.attrs}/>
                         </div>
@@ -84,7 +83,7 @@ export class ValidatedForm extends React.Component {
         return (
             <>
                 <form onSubmit={this.handleSubmit}>
-                    <input type="hidden" name="csrfmiddlewaretoken" value={getCookie('csrftoken')} />
+                    {/*<input type="hidden" name="csrfmiddlewaretoken" value={getCookie('csrftoken')} />*/}
                     {this.props.formModel.map(m => this.renderElement(m))}
                     <div className="text-center">
                         <button className="btn btn-secondary m-1"
