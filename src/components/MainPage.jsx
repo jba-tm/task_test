@@ -42,7 +42,9 @@ export const MainPage = connect(mapStateToProps, mapDispatchToProps)(
                     <div className="container">
                         <TaskTable tasks={this.props.tasks} actionHandler={this.props.updateTask}/>
                     </div>
-                    <div className="d-flex justify-content-around"/>
+                    <div className="d-flex justify-content-around">
+
+                    </div>
                 </>
             );
         }

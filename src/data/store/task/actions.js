@@ -7,12 +7,12 @@ const FormData = require('form-data');
 axios.defaults.xsrfCookieName = 'csrftoken'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 
-export const getTasks = () => {
+export const getTasks = (data) => {
     return dispatch => {
         dispatch({
             type: ActionTypes.TASKS_LOADING, payload: true
         })
-        axios.get(RestUrls[DataTypes.TASKS])
+        axios.get(`${RestUrls[DataTypes.TASKS]}/?page=${data['page']||1}`)
             .then(response => {
                 dispatch({type: ActionTypes.TASKS_GET, payload: response.data})
             })
