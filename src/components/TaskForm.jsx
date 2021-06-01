@@ -1,16 +1,17 @@
 import React from "react";
 import {ValidationError} from "../forms/ValidationError";
 import {connect} from "react-redux";
-import {createTask, login} from "../data/store";
+import {createTask, updateTask} from "../data/store";
 import {withFormik} from "formik";
 
-const BasicForm = (props)=>{
+const BasicForm = (props) => {
     const {
         errors,
         handleSubmit,
         values,
         handleChange,
-        setFieldTouched} = props
+        setFieldTouched
+    } = props
 
     return (
         <div className="container">
@@ -26,7 +27,7 @@ const BasicForm = (props)=>{
                         <input type="text" name="username"
                                onBlur={setFieldTouched}
                                onChange={handleChange} className="form-control" id="staticUsername"
-                               value={values.username}/>
+                               value={values.username || ''}/>
                     </div>
                 </div>
                 <div className="form-group row m-2">
@@ -39,7 +40,7 @@ const BasicForm = (props)=>{
                         <input type="text" name="email"
                                onBlur={setFieldTouched}
                                onChange={handleChange} className="form-control" id="staticEmail"
-                               value={values.email}/>
+                               value={values.email || ''}/>
                     </div>
                 </div>
                 <div className="form-group row m-2">
@@ -63,22 +64,28 @@ const BasicForm = (props)=>{
                     <ValidationError error={props.authData.errors['text']}/>
 
                     <textarea className="form-control" id="textArea"
-                              onBlur={setFieldTouched}
+                              onBlur={setFieldTouched} value={values.text || ''}
                               onChange={handleChange} name="text" rows="5"/>
                 </div>
                 <div className="form-group align-content-around">
+                    <button className="btn btn-secondary m-1"
+                            onClick={e => props.history.push('/')}> Cancel
+                    </button>
                     <button type='submit' className="btn btn-primary btn-large my-3">Save</button>
                 </div>
             </form>
         </div>)
 }
 
-const mapStateToProps = dataStore=>dataStore
+const mapStateToProps = dataStore => dataStore
 
 const mapDispatchToProps = {
-    createTask
+    createTask, updateTask
 }
 export const TaskForm = connect(mapStateToProps, mapDispatchToProps)(withFormik({
+    mapPropsToValues: (values) => {
+        return values.taskData.tasks.find(e => e.id.toString() === values.match.params.task)
+    },
     validate(values) {
         const errors = {}
         if (!values.username) {
@@ -94,63 +101,22 @@ export const TaskForm = connect(mapStateToProps, mapDispatchToProps)(withFormik(
         }
         return errors;
     },
-    handleSubmit(values, { props, setSubmitting }) {
-        // console.log(props)
-        const {createTask} = props
+    handleSubmit(values, {props, setSubmitting, setValues}) {
+        const {createTask, updateTask} = props
         const payload = {username: values.username, email: values.email, text: values.text}
 
-        createTask(payload).then(() => setSubmitting(false))
+        switch (props.match.params.section){
+            case 'update-task':
+                updateTask({...payload, id: props.match.params.task, token: localStorage.getItem('token')}).then(()=>{
+                    alert('Task updated')
+                    setSubmitting(false)
+                }); break;
+            default:
+                createTask(payload).then(() => {
+                    alert('Task created')
+                    setValues({username: '', email: '', text: '', completed: ''})
+                    setSubmitting(false)
+                })
+        }
     },
 })(BasicForm))
-
-// import {ValidatedForm} from "../forms/ValidatedForm";
-// import {createTask} from "../data/store";
-// import {connect} from 'react-redux'
-// import {useHistory} from 'react-router-dom';
-//
-// const mapStateToProps = state => ({
-//     message: state.taskData.message,
-//     errors: state.taskData.errors || {},
-// })
-//
-// const mapDispatchToProps = {
-//     createTask
-// }
-//
-// export const TaskForm = connect(mapStateToProps, mapDispatchToProps)(
-//     (props)=>{
-//         let history = useHistory()
-//         const defaultAttrs = {type: 'text', required: false}
-//         const formModel = [
-//             // {'label': 'Id': attrs: {}}
-//             {'label': "Username",},
-//             {'label': 'Email', attrs: {type: 'text'}},
-//             {'label': "Completed", attrs: {type: 'checkbox'}},
-//             {'label': "Text", attrs: {type: 'textarea'}}
-//         ]
-//
-//         const handleSubmit = (data) =>{
-//             props.createTask(data)
-//         }
-//
-//         const handleCancel = ()=>{
-//             history.push('/')
-//         }
-//         return (<>
-//             <div className="container">
-//                 <h1>Create Task</h1>
-//
-//                 <div className="row">
-//                     <div className="col m-2">
-//                         <ValidatedForm formModel={ formModel }
-//                                        defaultAttrs={ defaultAttrs }
-//                                        submitCallback={ handleSubmit }
-//                                        cancelCallback={ handleCancel }
-//                                        errors={props.errors}
-//                         />
-//                     </div>
-//                 </div>
-//             </div>
-//         </>)
-//     }
-// )

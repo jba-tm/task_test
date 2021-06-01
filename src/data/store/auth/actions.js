@@ -20,11 +20,8 @@ export const login = (data, callback=()=>{})=>{
         formData.append(key.toString(), data[key]);
     });
 
-    return dispatch => {
-        axios.post(RestUrls[DataTypes.AUTH], formData,
-            // {
-            // headers: {'X-CSRFToken': getCookie('csrftoken')}
-            // }
+    return async dispatch => {
+        await axios.post(RestUrls[DataTypes.AUTH], formData,
         ).then(
             response=>{
                 localStorage.setItem('token', response.data.token)

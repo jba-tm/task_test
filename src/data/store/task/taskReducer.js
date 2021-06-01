@@ -31,7 +31,6 @@ export const taskReducer = (state = initialState, action) => {
         }
 
         case ActionTypes.TASK_CREATE:{
-            window.alert('Task created')
             return {
                 ...state,
                 status: action.payload.status,

@@ -29,15 +29,12 @@ export const createTask = (data, callback = () => {}) => {
     Object.keys(data).forEach(key =>{
         formData.append(key.toString(), data[key]);
     });
-
     return async dispatch => {
         await axios.post(RestUrls[DataTypes.TASK_CREATE], formData)
             .then(response => {
-                console.log(response.data)
                 dispatch({type: ActionTypes.TASK_CREATE, payload: response.data})
             })
             .catch(err => {
-                // console.log(err)
                 dispatch({type: ActionTypes.TASKS_FAILURE, payload: err.response.data})
             })
     }
@@ -53,13 +50,11 @@ export const updateTask = (data, callback=()=>{})=>{
     });
 
     return async dispatch => {
-        await axios.post(`${RestUrls[DataTypes.TASK_UPDATE]}/${id}/`, formData)
+        return await axios.post(`${RestUrls[DataTypes.TASK_UPDATE]}/${id}/`, formData)
             .then(response => {
-                console.log(response.data)
                 dispatch({type: ActionTypes.TASK_UPDATE, payload: response.data})
             })
             .catch(err => {
-                // console.log(err)
                 dispatch({type: ActionTypes.TASKS_FAILURE, payload: err.response.data})
             })
     }

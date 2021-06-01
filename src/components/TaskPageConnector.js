@@ -6,9 +6,7 @@ const mapStateToProps = dataStore => dataStore;
 const mapDispatchToProps = {getTasks };
 
 const mergeProps = (dataStore, actionCreators, router) => {
-    console.log(dataStore)
     return {
-
         ...dataStore, ...router, ...actionCreators,
         currentPage: Number(dataStore.taskData.page?dataStore.taskData.page:1),
         pageCount: Math.ceil(dataStore.taskData.count / 3),

@@ -25,5 +25,4 @@ export default store;
 
 export {login, logout} from './auth/actions'
 export {createTask, updateTask, getTasks} from './task/actions'
-// export const StoreActions = {...AuthActions, ...TaskActions}
 
